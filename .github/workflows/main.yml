@@ -24,7 +24,7 @@ jobs:
       - name: APK'yi Pisir
         run: |
           export PATH=$PATH:$HOME/.local/bin
-          buildozer android clean
+          # Hata veren 'clean' komutunu sildik, direkt build'e dalıyoruz
           buildozer -v android debug
           
       - name: APK'yi Yukle
