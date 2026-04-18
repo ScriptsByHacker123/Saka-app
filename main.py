@@ -15,7 +15,6 @@ class SakaApp(App):
         self.layout = FloatLayout()
         self.sound = None
         
-        # Giriş Ekranı Başlığı
         lbl = Label(
             text="HANGİSİNİN SINAV CEVAPLARINI İSTERSİN?", 
             font_size='18sp', 
@@ -25,28 +24,17 @@ class SakaApp(App):
         )
         self.layout.add_widget(lbl)
 
-        # Kadın Butonu (Hilal)
-        btn_h = Button(
-            background_normal='kadin.png', 
-            size_hint=(.4, .3),
-            pos_hint={'center_x': 0.3, 'center_y': 0.6}
-        )
+        btn_h = Button(background_normal='kadin.png', size_hint=(.4, .3), pos_hint={'center_x': 0.3, 'center_y': 0.6})
         btn_h.bind(on_press=lambda x: self.kaosu_baslat('kadin.png'))
         self.layout.add_widget(btn_h)
 
-        # Adam Butonu (Nuri)
-        btn_n = Button(
-            background_normal='adam.png', 
-            size_hint=(.4, .3),
-            pos_hint={'center_x': 0.7, 'center_y': 0.6}
-        )
+        btn_n = Button(background_normal='adam.png', size_hint=(.4, .3), pos_hint={'center_x': 0.7, 'center_y': 0.6})
         btn_n.bind(on_press=lambda x: self.kaosu_baslat('adam.png'))
         self.layout.add_widget(btn_n)
 
         return self.layout
 
     def kaosu_baslat(self, resim_yolu):
-        # Müziği başlat (Uzantı mp3 olarak güncellendi)
         self.sound = SoundLoader.load('muzik.mp3')
         if self.sound:
             self.sound.loop = True
@@ -54,52 +42,32 @@ class SakaApp(App):
         
         self.layout.clear_widgets()
         
-        # Ekrana resimleri yağdır
         for _ in range(25):
-            img = Image(
-                source=resim_yolu, 
-                size_hint=(0.3, 0.3),
-                pos_hint={'x': random.random()*0.7, 'y': random.random()*0.7}
-            )
+            img = Image(source=resim_yolu, size_hint=(0.3, 0.3),
+                        pos_hint={'x': random.random()*0.7, 'y': random.random()*0.7})
             self.layout.add_widget(img)
 
-        # Şifre kutusunu açmak için görünmez ekran butonu
         tetikleyici = Button(background_color=(0,0,0,0), size_hint=(1, 1))
         tetikleyici.bind(on_press=self.sifre_ekrani)
         self.layout.add_widget(tetikleyici)
 
     def sifre_ekrani(self, instance):
         content = BoxLayout(orientation='vertical', padding=10, spacing=10)
-        content.add_widget(Label(
-            text='SİSTEM KİLİTLENDİ!\nERİŞİM KODUNU GİRİN:', 
-            halign='center', 
-            font_size='15sp'
-        ))
-        
+        content.add_widget(Label(text='SİSTEM KİLİTLENDİ!\nERİŞİM KODUNU GİRİN:', halign='center'))
         self.sifre_input = TextInput(multiline=False, password=True, size_hint_y=None, height='40dp')
         content.add_widget(self.sifre_input)
-        
         btn = Button(text='SİSTEMİ GERİ YÜKLE', size_hint_y=None, height='50dp')
         btn.bind(on_press=self.sifre_kontrol)
         content.add_widget(btn)
-        
-        self.popup = Popup(
-            title='KRİTİK HATA!', 
-            content=content, 
-            size_hint=(0.8, 0.4), 
-            auto_dismiss=False
-        )
+        self.popup = Popup(title='KRİTİK HATA!', content=content, size_hint=(0.8, 0.4), auto_dismiss=False)
         self.popup.open()
 
     def sifre_kontrol(self, instance):
-        # Şifre kontrolü
         if self.sifre_input.text == "etap+pardus!":
-            if self.sound: 
-                self.sound.stop()
-            App.get_running_app().stop() # Uygulamayı güvenli kapat
+            if self.sound: self.sound.stop()
             os._exit(0)
         else:
-            self.sifre_input.text = "" # Yanlışsa temizle
+            self.sifre_input.text = ""
 
 if __name__ == '__main__':
     SakaApp().run()
