@@ -1,4 +1,4 @@
-name: APK Oluşturucu
+name: APK Olusturucu
 on: [push, pull_request]
 
 jobs:
@@ -7,14 +7,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Buildozer ile APK Üret
-        uses: ArtemSBulgakov/buildozer-action@v1
-        with:
-          buildozer_version: master
-          command: buildozer android debug
-          repository_root: .
+      - name: Gerekli Paketleri Kur
+        run: |
+          sudo apt update
+          sudo apt install -y git zip unzip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev
+          pip3 install --user --upgrade Cython==0.29.33 buildozer
 
-      - name: APK Dosyasını Kaydet
+      - name: APK'yi Pisir (Build)
+        run: |
+          export PATH=$PATH:$HOME/.local/bin
+          buildozer android debug
+
+      - name: APK'yi Disari Aktar
         uses: actions/upload-artifact@v4
         with:
           name: paketlenmis-apk
