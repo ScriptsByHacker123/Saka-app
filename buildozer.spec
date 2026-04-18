@@ -17,7 +17,7 @@ android.accept_sdk_license = True
 android.skip_update = False
 android.api = 31
 android.minapi = 21
-android.ndk = 23b
+android.ndk = 25b
 android.log_level = 2
 
 [buildozer]
