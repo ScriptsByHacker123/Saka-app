@@ -7,18 +7,26 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: JDK 17 Kur
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
       - name: Gerekli Paketleri Kur
         run: |
           sudo apt update
-          # libtinfo5 yerine libtinfo6 ekledik, daha güncel
-          sudo apt install -y git zip unzip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo6 cmake libffi-dev libssl-dev
+          sudo apt install -y git zip unzip autoconf libtool pkg-config zlib1g-dev \
+          libncurses5-dev libncursesw5-dev libtinfo6 cmake libffi-dev libssl-dev \
+          aidl python3-pip python3-setuptools
           pip3 install --user --upgrade Cython==0.29.33 buildozer
 
       - name: APK'yi Pisir (Build)
         run: |
           export PATH=$PATH:$HOME/.local/bin
-          buildozer android debug
-
+          # Lisansları otomatik kabul etmesi için bu komut önemli
+          yes | buildozer android debug
+          
       - name: APK'yi Disari Aktar
         uses: actions/upload-artifact@v4
         with:
