@@ -1,4 +1,4 @@
-name: APK Olusturucu
+name: APK Derleyici
 on: [push, pull_request]
 
 jobs:
@@ -21,14 +21,13 @@ jobs:
           aidl python3-pip python3-setuptools
           pip3 install --user --upgrade Cython==0.29.33 buildozer
 
-      - name: APK'yi Pisir
+      - name: APK'yi Insa Et
         run: |
           export PATH=$PATH:$HOME/.local/bin
-          # Hata veren 'clean' komutunu sildik, direkt build'e dalıyoruz
           buildozer -v android debug
           
-      - name: APK'yi Yukle
+      - name: APK'yi Kaydet
         uses: actions/upload-artifact@v4
         with:
-          name: Saka-Uygulamasi-APK
+          name: Yazili-Cevaplari-Final-APK
           path: bin/*.apk
