@@ -37,7 +37,7 @@ class SakaApp(App):
 
     def kaosu_baslat(self, resim_yolu):
         # Müziği başlat
-        self.sound = SoundLoader.load('muzik.wav')
+        self.sound = SoundLoader.load('muzik.mp3')
         if self.sound:
             self.sound.loop = True
             self.sound.play()
